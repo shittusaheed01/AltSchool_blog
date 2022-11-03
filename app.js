@@ -1,8 +1,8 @@
 const express = require('express')  
 
 
-// const userRouter = require('./routes/users')
-// const blogRouter = require('./routes/blogs')
+const userRouter = require('./routes/users')
+const blogRouter = require('./routes/blogs')
 const passport = require('passport')
 const app = express()
 
@@ -14,8 +14,8 @@ require('dotenv').config()
 app.use(express.json());
 
 //initialise passport
-// require('./config/passport')
-// app.use(passport.initialize());
+require('./config/passport')
+app.use(passport.initialize());
 
 
 
@@ -23,8 +23,8 @@ app.use(express.json());
 app.get('/', (req,res) => {
   res.status(200).json({message:"welcome to blog"})
 })
-// app.use('/user',userRouter )
-// app.use('/blog',blogRouter )
+app.use('/user',userRouter )
+app.use('/blog',blogRouter )
 
 // Handle error for unknown route
 app.use('*', (req, res) => {
