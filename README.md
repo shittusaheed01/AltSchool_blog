@@ -345,7 +345,12 @@ Success
 ```
 ---
 
-...
+## Testing Setup
+- start up local mongodb server i.e mongo compass with the default connection uri
+- run `npm run test`
+
+---
+
 
 ## Contributor
 - Saheed Shittu
