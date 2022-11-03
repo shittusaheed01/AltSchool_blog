@@ -346,7 +346,9 @@ Success
 ---
 
 ## Testing Setup
-- start up local mongodb server i.e mongo compass with the default connection uri
+- check the tests branch for test files(didn't add it to the master branch because render didn't deploy with the test files)
+- pull the tests branch 
+- start up local mongodb server(mongodb://localhost:27017/) i.e mongo compass with the default connection uri
 - run `npm run test`
 
 ---
