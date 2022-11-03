@@ -18,11 +18,11 @@ This is an api for a blog app
 - Install NodeJS, mongodb
 - pull this repo
 - update env with example.env
-- run `npm run start`
+- run `npm run start-dev`
 
 ---
 ## Base URL
-- https://saheed-blog.onrender.com/
+- https://saheedaltblog.onrender.com/
 
 
 ## Models
