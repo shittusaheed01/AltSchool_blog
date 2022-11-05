@@ -22,7 +22,7 @@ This is an api for a blog app
 
 ---
 ## Base URL
-- https://saheed-blog.onrender.com/
+- https://saheedaltblog.onrender.com/
 
 
 ## Models
