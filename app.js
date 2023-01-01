@@ -4,16 +4,28 @@ const express = require('express')
 const userRouter = require('./routes/users')
 const blogRouter = require('./routes/blogs')
 const passport = require('passport')
+const rateLimit = require('express-rate-limit')
+const helmet = require('helmet')
 const app = express()
 
 
 //dotenv
 require('dotenv').config()
 
-//middlewares
+//Rate Limiting
+const limiter = rateLimit({
+	windowMs: 0.5 * 60 * 1000, // 15 minutes
+	max: 4, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+	standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+})
+
+//security
+app.use(helmet())
+//MiddleWares
 app.use(express.json());
 
-//initialise passport
+//initialize passport
 require('./config/passport')
 app.use(passport.initialize());
 
@@ -23,6 +35,10 @@ app.use(passport.initialize());
 app.get('/', (req,res) => {
   res.status(200).json({message:"welcome to blog"})
 })
+
+//limit calls to blog and user
+app.use(limiter)
+
 app.use('/user',userRouter )
 app.use('/blog',blogRouter )
 

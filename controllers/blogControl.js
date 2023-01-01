@@ -116,7 +116,7 @@ if(state){
     return res.status(200).json({message:"blogs gotten", blog})
 
   }catch(error){
-    return res.status(404).json({message:"an error occured", error})
+    return res.status(404).json({message:"an error occurred", error})
   }
   
 }
@@ -129,7 +129,7 @@ exports.postBlog = async (req,res) => {
   const user = await UserModel.findById(author_id)
 
     if(!user) {
-      return res.status(401).json({message:"User is not authorised"})
+      return res.status(401).json({message:"User is not authorized"})
     }
     
     const {first_name, last_name} = user
@@ -162,7 +162,7 @@ exports.updateBlog = async (req,res) => {
     res.status(201).json({message:"blog updated", blog})
   }catch(err){
     console.log(err)
-    res.status(400).json({message:"an error occured"})
+    res.status(400).json({message:"an error occurred"})
   }
   
 }
@@ -174,8 +174,6 @@ exports.deleteBlog = async (req, res) => {
     res.status(201).json({message:"blog deleted", deletedBlog})
   }catch(err){
     console.log(err)
-    res.status(400).json({message:"an error occured"})
+    res.status(400).json({message:"an error occurred"})
   }
-
-
 }

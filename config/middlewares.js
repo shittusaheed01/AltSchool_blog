@@ -1,25 +1,6 @@
 const jwt = require("jsonwebtoken");
 const BlogModel = require('../models/Blog')
 
-
-// const sendToken = (req, res, next) => {
-// let token = "";
-// if (req.headers.authorization && req.headers. authorization.split(" ")[0] === "Bearer") {
-//   token = req.headers.authorization.split(" ")[1];
-//   } else {
-//     token = "";
-//   }
-// jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-//   if (user) {
-//       req.user = user;
-//   }else{
-//       req.user = "";
-//   }
-      
-// });
-// next();
-// };
-
 const verifyBlogOwner = async (req, res, next) => {
 const blogId = req.params.id
 const blog = await BlogModel.findById(blogId).populate("author_id")
@@ -40,17 +21,15 @@ const read_time = (blog)=>{
         reading_time= totalMin + " minutes"
   return reading_time
 }
-// const checkBody = (body) => {
-//   const allowedUpdates = ['title','description', 'tags','body','state']
-//   const keys = Object.keys(body);
-//   const isUpdationValid = keys.every(key => allowedUpdates.includes(key))
-//   return isUpdationValid
-// }
 
+const errorMiddleware = (error, req,res, next) => {
+
+}
 
 module.exports = {
 
 verifyBlogOwner,
 read_time,
+errorMiddleware
 // checkBody,
 };
