@@ -22,7 +22,8 @@ This is an api for a blog app
 
 ---
 ## Base URL
-- https://saheedaltblog.onrender.com/
+- https://ill-erin-sea-urchin-hem.cyclic.app/
+- https://saheedaltblog.onrender.com/ (currently unavailable)
 
 
 ## Models
