@@ -1,11 +1,11 @@
-const BlogModel = require('../models/Blog')
-const UserModel = require('../models/Users'),
-      {read_time }= require('../config/middlewares')
+const BlogModel = require('../db/models/Blog')
+const UserModel = require('../db/models/Users'),
+      {read_time }= require('../middleware/middlewares')
 
 
 
 //Read
-exports.getBlogs = async (req,res) => {
+exports.getBlogs = async (req,res,next) => {
   const { 
       state, 
       author , 
@@ -69,7 +69,7 @@ exports.getBlogs = async (req,res) => {
 
 }
 //Read with ID
-exports.getbyIDBlog = async (req,res) => {
+exports.getbyIDBlog = async (req,res,next) => {
   // const id = req.params.id
   
   try{
@@ -84,14 +84,13 @@ exports.getbyIDBlog = async (req,res) => {
     blog.save()
   res.status(200).json({message:"blogs gotten", blog})
   }catch(err){
-    console.log(err)
-    res.status(400).json({message:"blog not found"})
+    next(err)
   }
   
 }
 
 //Read Logged In User Blogs
-exports.getUserBlogs  = async (req,res) =>{
+exports.getUserBlogs  = async (req,res,next) =>{
   const { 
     state,
     page = 0, 
@@ -116,18 +115,17 @@ if(state){
     return res.status(200).json({message:"blogs gotten", blog})
 
   }catch(error){
-    return res.status(404).json({message:"an error occurred", error})
+    next(error)
   }
   
 }
 
 //Create
-exports.postBlog = async (req,res) => {
+exports.postBlog = async (req,res,next) => {
   const {title, description, tags, body} = req.body
   const author_id = req.user.id
   //gets author details
   const user = await UserModel.findById(author_id)
-
     if(!user) {
       return res.status(401).json({message:"User is not authorized"})
     }
@@ -138,17 +136,23 @@ exports.postBlog = async (req,res) => {
 
     try{
       const blog = await BlogModel.create({title,description,tags,body, author_id, author, reading_time})
-      // const blog = await new BlogModel({title,description,tags,body, author_id, author})
       res.status(201).json({blog})
     }
     catch(err){
-      console.log(err)
-      res.status(400).json({message:'could not create blog'})
+      if (err.code === 11000) {
+        next({
+        status:400,
+          message:"Blog Title already taken"
+        });
+      }
+      else{
+        next(err)
+      }
     }
 }
 
 //Update
-exports.updateBlog = async (req,res) => {
+exports.updateBlog = async (req,res,next) => {
   const blogId = req.params.id
   const {title, description, tags, body, state} = req.body
 
@@ -161,8 +165,7 @@ exports.updateBlog = async (req,res) => {
     }
     res.status(201).json({message:"blog updated", blog})
   }catch(err){
-    console.log(err)
-    res.status(400).json({message:"an error occurred"})
+    next(err)
   }
   
 }
@@ -173,7 +176,6 @@ exports.deleteBlog = async (req, res) => {
     const deletedBlog = await BlogModel.deleteOne({ _id: blogId})
     res.status(201).json({message:"blog deleted", deletedBlog})
   }catch(err){
-    console.log(err)
-    res.status(400).json({message:"an error occurred"})
+    next(err)
   }
 }

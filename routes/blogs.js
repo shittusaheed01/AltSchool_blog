@@ -10,38 +10,36 @@ const {
   deleteBlog,
   getUserBlogs,
 } = require("../controllers/blogControl");
-const { verifyBlogOwner } = require("../config/middlewares");
+
+const { verifyBlogOwner } = require("../middleware/middlewares");
+const { PostBlogValidation, UpdateBlogValidation } = require("../middleware/validators/blog.validator.js");
 
 blogRouter.get("/", getBlogs);
+
 blogRouter.get(
   "/me",
-  passport.authenticate("jwt", {
-    session: false,
-  }),
+  passport.authenticate("jwt", {session: false,}),
   getUserBlogs
 );
-blogRouter.get("/:id", getbyIDBlog);
 
+blogRouter.get("/:id", getbyIDBlog);
 
 blogRouter.patch(
   "/:id",
-  passport.authenticate("jwt", {
-    session: false,
-  }),verifyBlogOwner,
-  updateBlog
+    UpdateBlogValidation,
+    passport.authenticate("jwt", {session: false}),
+    verifyBlogOwner,
+    updateBlog
 );
 blogRouter.post(
   "/",
-  passport.authenticate("jwt", {
-    session: false,
-  }),
-  postBlog
+    PostBlogValidation,
+    passport.authenticate("jwt", {session: false }),
+    postBlog
 );
 blogRouter.delete(
   "/:id",
-  passport.authenticate("jwt", {
-    session: false,
-  }),
+  passport.authenticate("jwt", {session: false,}),
   verifyBlogOwner,
   deleteBlog
 );

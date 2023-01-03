@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const BlogModel = require('../models/Blog')
+const BlogModel = require('../db/models/Blog')
 
 const verifyBlogOwner = async (req, res, next) => {
 const blogId = req.params.id

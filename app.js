@@ -9,8 +9,6 @@ const helmet = require('helmet')
 const app = express()
 
 
-//dotenv
-require('dotenv').config()
 
 //Rate Limiting
 const limiter = rateLimit({
@@ -26,7 +24,7 @@ app.use(helmet())
 app.use(express.json());
 
 //initialize passport
-require('./config/passport')
+require('./middleware/passport')
 app.use(passport.initialize());
 
 
@@ -47,13 +45,12 @@ app.use('*', (req, res) => {
   return res.status(404).json({ message: 'route not found' })
 })
 
-
-// const serverApp = app.listen(3000, ()=>{
-//   console.log(`app started`)
-// })
-
-// database connection
-// connectDB(app)
+app.use((err, req, res, next) => {
+    console.log(err)
+    const errorStatus = err.status || 500
+    res.status(errorStatus).send(err.message)
+    next()
+})
 
 
 module.exports = app
