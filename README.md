@@ -2,9 +2,12 @@
 This is an api for a blog app
 
 ---
+Documentation: https://documenter.getpostman.com/view/14148992/2s8Z72TW4J
+
+---
 
 ## Requirements
-1. User should be able to signup  and get a token
+1. User should be able to sign up  and get a token
 2. User should be able to login and get a token
 3. Implement auth using passport
 4. User, logged in or not should be able to get blogs

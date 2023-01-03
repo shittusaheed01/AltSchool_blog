@@ -65,7 +65,7 @@ exports.getBlogs = async (req,res,next) => {
     .skip(page * blogsPerPage)
     .limit(blogsPerPage);
     
-    return res.status(200).json({message:"blogs gotten", blog})
+    return res.status(200).json({message:"Got blogs", blog})
 
 }
 //Read with ID
@@ -82,7 +82,7 @@ exports.getbyIDBlog = async (req,res,next) => {
     //increase the read count
     blog.read_count += 1
     blog.save()
-  res.status(200).json({message:"blogs gotten", blog})
+  res.status(200).json({message:"Got blog", blog})
   }catch(err){
     next(err)
   }
@@ -112,7 +112,7 @@ if(state){
     if(!blog){
       return res.status(404).json({message:'You have not posted any blog'})
     }
-    return res.status(200).json({message:"blogs gotten", blog})
+    return res.status(200).json({message:"Got blogs", blog})
 
   }catch(error){
     next(error)
@@ -136,7 +136,7 @@ exports.postBlog = async (req,res,next) => {
 
     try{
       const blog = await BlogModel.create({title,description,tags,body, author_id, author, reading_time})
-      res.status(201).json({blog})
+      res.status(201).json({message:"Created blog", blog})
     }
     catch(err){
       if (err.code === 11000) {
@@ -163,7 +163,7 @@ exports.updateBlog = async (req,res,next) => {
       blog.reading_time = reading_time
       blog.save()
     }
-    res.status(201).json({message:"blog updated", blog})
+    res.status(201).json({message:"Blog updated", blog})
   }catch(err){
     next(err)
   }
@@ -174,7 +174,7 @@ exports.deleteBlog = async (req, res) => {
   const blogId = req.params.id
   try{
     const deletedBlog = await BlogModel.deleteOne({ _id: blogId})
-    res.status(201).json({message:"blog deleted", deletedBlog})
+    res.status(201).json({message:"Blog deleted", deletedBlog})
   }catch(err){
     next(err)
   }
