@@ -28,9 +28,7 @@ const UserLoginSchema = Joi.object({
         .required(),
     password: Joi.string()
         .required(),
-    repeat_password: Joi.ref('password'),
 })
-.with('password', 'repeat_password');
 
 
 

@@ -24,7 +24,7 @@ exports.signup = async (req,res,next) =>{
     if (err.code === 11000) {
       next({
       status:400,
-        message:"Email is already exits"
+        message:"Email already exists"
       });
     }
     else{

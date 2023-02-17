@@ -44,7 +44,7 @@ app.use('/blog',blogRouter )
 app.use('*', (req, res) => {
   return res.status(404).json({ message: 'route not found' })
 })
-
+//Error-handling middleware
 app.use((err, req, res, next) => {
     console.log(err)
     const errorStatus = err.status || 500

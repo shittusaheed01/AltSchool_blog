@@ -4,11 +4,13 @@ const passport = require("passport");
 const blogRouter = express.Router();
 const {
   getBlogs,
-  getbyIDBlog,
+  getBlog,
   postBlog,
   updateBlog,
   deleteBlog,
-  getUserBlogs,
+  getBookmarks,
+  getMyBlog,
+  addBookmark,
 } = require("../controllers/blogControl");
 
 const { verifyBlogOwner } = require("../middleware/middlewares");
@@ -17,12 +19,22 @@ const { PostBlogValidation, UpdateBlogValidation } = require("../middleware/vali
 blogRouter.get("/", getBlogs);
 
 blogRouter.get(
+  "/bookmark",
+  passport.authenticate("jwt", {session: false,}),
+  getBookmarks
+);
+blogRouter.post(
+  "/bookmark:id",
+  passport.authenticate("jwt", {session: false,}),
+  addBookmark
+);
+blogRouter.get(
   "/me",
   passport.authenticate("jwt", {session: false,}),
-  getUserBlogs
+  getMyBlog
 );
 
-blogRouter.get("/:id", getbyIDBlog);
+blogRouter.get("/:id", getBlog)
 
 blogRouter.patch(
   "/:id",

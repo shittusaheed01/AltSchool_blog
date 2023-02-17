@@ -69,7 +69,7 @@ exports.getBlogs = async (req,res,next) => {
 
 }
 //Read with ID
-exports.getbyIDBlog = async (req,res,next) => {
+exports.getBlog = async (req,res,next) => {
   // const id = req.params.id
   
   try{
@@ -90,7 +90,7 @@ exports.getbyIDBlog = async (req,res,next) => {
 }
 
 //Read Logged In User Blogs
-exports.getUserBlogs  = async (req,res,next) =>{
+exports.getMyBlog  = async (req,res,next) =>{
   const { 
     state,
     page = 0, 
@@ -175,6 +175,34 @@ exports.deleteBlog = async (req, res) => {
   try{
     const deletedBlog = await BlogModel.deleteOne({ _id: blogId})
     res.status(201).json({message:"Blog deleted", deletedBlog})
+  }catch(err){
+    next(err)
+  }
+}
+//Bookmark Blog
+exports.addBookmark = async (req, res) => {
+  const blogId = req.params.id
+  try {
+    const blog = await BlogModel.findById(blogId)
+    if (!blog) return res.status(404).json({status:"failed", message:"no blog with that id"})
+    // check if the user already bookmarked the blog
+    if (blog.bookmarks.filter(bookmark => bookmark.user.toString() === req.user._id.toString()).length > 0) {
+      return res.status(400).json({ msg: 'Post already bookmarked' })
+    }
+
+    // add the user id to the bookmarks array
+    blog.bookmarks.unshift({ user: req.user._id })
+    await blog.save()
+    res.json(blog.bookmarks)
+  } catch (err) {
+    console.error(err.message)
+    res.status(500).send('Server Error')
+  }
+}
+exports.getBookmarks = async (req, res) => {
+  const blogId = req.params.id
+  try{
+    
   }catch(err){
     next(err)
   }

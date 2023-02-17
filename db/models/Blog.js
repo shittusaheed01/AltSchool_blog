@@ -22,6 +22,15 @@ const BlogSchema = new Schema({
       trim:true,
       required:true
   },
+  bookmarks: [
+    {
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        trim:true
+      }
+    }
+  ],
   state: {
     type:String,
     enum: ['published', 'draft'],
