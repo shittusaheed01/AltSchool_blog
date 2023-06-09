@@ -25,8 +25,7 @@ Documentation: https://documenter.getpostman.com/view/14148992/2s8Z72TW4J
 
 ---
 ## Base URL
-- https://ill-erin-sea-urchin-hem.cyclic.app/
-- https://saheedaltblog.onrender.com/ (currently unavailable)
+- https://saheedaltblog.onrender.com
 
 
 ## Models
